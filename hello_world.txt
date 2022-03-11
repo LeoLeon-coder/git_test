@@ -1,1 +1,2 @@
-First modification test in 2022
+First modification test in 2022.
+Testing git commit command <git config --global core.editor "code --wait">
