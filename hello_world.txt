@@ -1,2 +1,155 @@
 First modification test in 2022.
 Testing git commit command <git config --global core.editor "code --wait">
+
+\documentclass{article}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{setspace}
+
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr, lastpage}
+
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+
+\usepackage{amsmath, amssymb}
+\usepackage{dsfont, mathrsfs}
+
+%===================================================================
+%Para los intervalos cerrados y abiertos
+%===================================================================
+\usepackage{xparse}
+
+\NewDocumentCommand{\INTERVALINNARDS}{ m m }{
+	#1 {,} #2
+}
+\NewDocumentCommand{\interval}{ s m >{\SplitArgument{1}{,}}m m o }{
+	\IfBooleanTF{#1}{
+		\left#2 \INTERVALINNARDS #3 \right#4
+	}{
+		\IfValueTF{#5}{
+			#5{#2} \INTERVALINNARDS #3 #5{#4}
+		}{
+			#2 \INTERVALINNARDS #3 #4
+		}
+	}
+}
+%===================================================================
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{}
+\lhead{OPTIMIZACIÓN $|$ \textcolor{red}{TAREA \# 4 (2do PARCIAL)}}
+\lfoot{Universidad Autónoma de Chihuahua}
+\rfoot{Página \thepage \hspace{1pt} de \pageref{LastPage}}
+
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\comment}[1]{}
+
+\begin{document}
+	\thispagestyle{empty}
+	\begin{tabular}{m{3.5cm}m{10.5cm}}
+		\includegraphics[height=3.5cm]{fing.png}
+		&
+		\begin{minipage}{10.5cm}
+			{\vspace{-1cm}\Large \textbf{\textit{TAREA \# 4 (2do PARCIAL)}}}\\[0.5cm]	{\normalsize León Mora Leonardo Rafael $^{335821}$.\\[0.1cm]
+				\textbf{Asesora}: Álvarez Allende Haydey.} \\[0.1cm]
+			{\small \textit{Universidad Autónoma de Chihuahua, Facultad de Ingeniería,\\
+					Circuito Universitario, Campus 2, Chihuahua, Chih., México. C.P. 31125} }\\[0.1cm]
+			{\normalsize \today}
+		\end{minipage}
+	\end{tabular}
+	\line(1, 0){15.5cm}
+	
+	\section{\normalsize Considere la función de Rosenbrock:}
+	\vspace{-0.5cm}
+    \begin{equation*}
+    	f(x) = 100(x_2 - x_1^2)^2 + (1 - x_1)^2 \; , 
+    \end{equation*}
+    \vspace{0.2cm}
+    \noindent\textbf{y el punto de inicio $x^{(0)} = [-1.2, \; 0]^T$. Encuentre $x^*$ de modo que $f(x^*)$ sea un valor mínimo de $f$.}
+    
+    \begin{enumerate}[label=\textbf{(\alph*.)}]
+    	\item \textbf{A mano, utilice el método simplex de Nelder-Mead para la búsqueda del mínimo, lleve a cabo 4 iteraciones.}
+        \item \textbf{Utilizando el método de Hooke-Jeeves en una computadora, compare el resultado obtenido en el inciso (a.).}
+    \end{enumerate}
+    
+    \begin{center}
+    	\textbf{\textit{Solución}}
+    \end{center}
+    
+    \noindent Lo primero que se debe hacer es aplicar el método simplex básico. Entonces, se tiene que:
+    
+    \begin{enumerate}
+    	%PASO 1 (SIMPLEX):
+    	\item \textbf{Datos:}
+    	\begin{itemize}
+    		\item Dimensiones: $n = 2$,
+    		\item $\alpha = 2$,
+    		\item $x^{(0)} = [-1.2, \; 0]^T$.
+    	\end{itemize}
+        
+        % PASO 2 (SIMPLEX):
+        \vspace{0.5cm}
+    	\item \textbf{Cálculo de los parámetros $\delta_1$ y $\delta_2$:}
+    	\vspace{-0.1cm}
+    	\begin{align*}
+    		\delta_1 = \left[ \frac{(n + 1)^{1/2} + n - 1}{n \sqrt{2}} \right] \alpha \; ; \qquad    		\delta_2 = \left[ \frac{(n + 1)^{1/2} - 1}{n \sqrt{2}} \right] \alpha \; .
+    	\end{align*}
+    	
+    	Entonces,
+    	\vspace{-0.1cm}
+    	\begin{align*}
+    		\delta_1 =&\; \left[ \frac{(2 + 1)^{1/2} + 2 - 1}{2 \sqrt{2}} \right] 2 = \frac{\sqrt{3} + 1}{\sqrt{2}} \approx 1.9319 \; , &\rightarrow&& \delta_1 = 1.9319 \; , \\[1em]
+    		\delta_2 =&\; \left[ \frac{(2 + 1)^{1/2} - 1}{2 \sqrt{2}} \right] 2 = \frac{\sqrt{3} - 1}{\sqrt{2}} \approx 0.5176 \; , &\rightarrow&& \delta_2 = 0.5176 \; .
+    	\end{align*}
+    	
+    	% PASO 3 (SIMPLEX):
+    	\vspace{0.5cm}
+    	\item \textbf{Determinación de los vértices del simplex:}
+    	\vspace{-0.1cm}
+    	\begin{align*}
+    		x_{j}^{(i)} =
+    		\begin{cases}
+    			x_{j}^{(0)} + \delta_1 &\text{ si } j = i \; , \\[1em]
+    			x_{j}^{(0)} + \delta_2 &\text{ si } j \ne i \; .
+    		\end{cases}
+    	\end{align*}
+    	
+    	En este caso, $i = 1, \; 2 \; .$
+    	\vspace{-0.1cm}
+        \begin{align*}
+        	x^{(1)} =&\; \left[ x_{1}^{(1)}, \; x_{2}^{(1)} \right]^T = \left[ x_{1}^{(0)} + \delta_1, \; x_{2}^{(0)} + \delta_2 \right]^T &&& \\[1em]
+        	=&\; [-1.2 + 1.9319, \; 0 + 0.5176]^T = [0.7319, \; 0.5176]^T &\rightarrow&& x^{(1)} = [0.7319, \; 0.5176]^T \; . \\[1em]
+        	x^{(2)} =&\; \left[ x_{1}^{(2)}, \; x_{2}^{(2)} \right]^T = \left[ x_{1}^{(0)} + \delta_2, \; x_{2}^{(0)} + \delta_1 \right]^T &&& \\[1em]
+        	=&\; [-1.2 + 0.5176, \; 0 + 1.9319]^T = [-0.6824, \; 1.9319]^T &\rightarrow&& x^{(2)} = [-0.6824, \; 1.9319]^T \; . 
+        \end{align*}
+    	
+    	% PASO 4 (SIMPLEX):
+    	\vspace{0.5cm}
+    	\item \textbf{Simplex resultante:}
+    	\vspace{-0.1cm}
+    	\begin{align*}
+    		x^{(0)} = [-1.2, \; 0]^T \; ; \quad x^{(1)} = [0.7319, \; 0.5176]^T \; ; \quad x^{(2)} = [-0.6824, \; 1.9319]^T \; . 
+    	\end{align*}
+    \end{enumerate} 
+    
+    
+    \noindent La función evaluada en cada uno de los puntos obtenidos genera los siguientes resultados,
+    
+    \begin{align*}
+    	f(x^{(0)}) =& \; 100(0 - (-1.2)^2)^2 + (1 - (-1.2))^2 = 212.2 \; , &\rightarrow&& f(x^{(0)}) = 212.2 \; . \\[1em]
+    	f(x^{(1)}) =& \; 100(0.5176 - (0.7319)^2)^2 + (1 - 0.7319)^2 = 0.1046 \; , &\rightarrow&& f(x^{(1)}) = 0.1046 \; . \\[1em]
+    	f(x^{(2)}) =& \; 100(1.9319 - (-0.6824)^2)^2 + (1 - (-0.6824))^2 = 217.81 \; , &\rightarrow&& f(x^{(2)}) = 217.81 \; .
+    \end{align*}
+    
+    \noindent Ahora, aplicando el método de Nelder-Mead:
+    
+    \begin{itemize}[label=]
+    	content...
+    \end{itemize}
